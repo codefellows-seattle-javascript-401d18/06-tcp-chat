@@ -14,7 +14,7 @@ let helpGuide = [
   '\n>>> cmd: \'@dm <name> <msg>\' to private message user\n',
   '\n>>> cmd: \'@nickname <name>\' to change your name\n',
   '\n>>> cmd: \'@exit\' to exit chat room\n',
-  '\n>>> emojis: \'#angry, #reallyangry, #calm, #dog, \n #cat, #shrug, #warlizard\'',
+  '\n>>> emojis: \'#tableflip, #calm, #shrug \n #love\'',
   '\n-------------------------------------------------------------\n',
 ];
 
@@ -69,12 +69,6 @@ ee.on('#tableflip', function(client) {
   });
 });
 
-ee.on('#hardtable flip', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: (╯°□°）╯︵ ┻━┻︵ ┻━┻\n`);
-  });
-});
-
 ee.on('#calm', function(client) {
   pool.forEach( el => {
     el.socket.write(`${client.nickname}: ┬──┬ ノ(゜-゜ノ)\n`);
@@ -88,28 +82,9 @@ ee.on('#shrug', function(client) {
   });
 });
 
-ee.on('#dog', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: ˁ˚ᴥ˚ˀ\n`);
-  });
-});
-
-ee.on('#cat', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: =^..^=\n`);
-  });
-});
-
 ee.on('#love', function(client) {
   pool.forEach( el => {
     el.socket.write(`${client.nickname}: ♥‿♥\n`);
-  });
-});
-
-
-ee.on('#warlizard', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: ಠ_ಠ\n`);
   });
 });
 
