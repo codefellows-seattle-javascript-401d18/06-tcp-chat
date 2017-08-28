@@ -3,7 +3,7 @@
 const net = require('net');
 const EE = require('events');
 const Client = require(`${__dirname}/model/client.js`);
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 const server = net.createServer();
 const ee = new EE();
 
@@ -63,13 +63,13 @@ ee.on('@nickname', function(client, string) {
   client.nickname = string.split(' ').shift().trim();
 });
 
-ee.on('#angry', function(client) {
+ee.on('#tableflip', function(client) {
   pool.forEach( el => {
     el.socket.write(`${client.nickname}: (╯°□°）╯︵ ┻━┻\n`);
   });
 });
 
-ee.on('#reallyangry', function(client) {
+ee.on('#hardtable flip', function(client) {
   pool.forEach( el => {
     el.socket.write(`${client.nickname}: (╯°□°）╯︵ ┻━┻︵ ┻━┻\n`);
   });
@@ -123,7 +123,7 @@ server.on('connection', function(socket) {
 
   pool.push(client);
 
-  socket.write('\nWelcome to Jonah\'s Chat Room \n');
+  socket.write('\nWelcome to Shaun\'s Chat Room \n');
   socket.write('Type @help to see a list of available commands \n');
 
   socket.on('data', function(data) {
