@@ -31,21 +31,20 @@ server.on('connection', socket => {
           c.socket.write(`${client.nick} to ${data.toString()}`);
         }
       });
+    } else if(cmd === '@exit'){
+      pool.forEach(c => c.socket.write(`${client.nick} has left chat\n`));
+      client.socket.end();
+      delete this.client;
+    } else {
+      ee.emit('default', client, data.toString().split(' ').slice(1).join());
     }
-  } else if(cmd === '@exit'){
-    pool.forEach(c => c.socket.write(`${client.nick} has left chat\n`));
-    client.socket.end();
+  });
+  socket.on('error', function(err) {
+    console.log('Error in the Socket', (err));
+    socket.destroy();
+  });
+  socket.on('disconnect', function () {
     delete this.client;
-  } else {
-    ee.emit('default', client, data.toString().split(' ').slice(1).join());
-  }
-});
-socket.on('error', function(err) {
-  console.log('Error in the Socket', (err));
-  socket.destroy();
-});
-socket.on('disconnect', function () {
-  delete this.client;
-});
+  });
 });
 server.listen(3000, () => console.log('Listening on port 3000'));
