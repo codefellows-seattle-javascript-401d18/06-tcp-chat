@@ -1,4 +1,4 @@
-![ChatterBox]
+# *ChatterBox*
 
 # Join ChatterBox today to join the greatest chat room ever.
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
