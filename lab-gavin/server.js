@@ -56,10 +56,10 @@ server.on('connection', socket => {
       });
     } else if (cmd === '@exit'){
       let user = client.nickName;
+      client.socket.end();
       pool.forEach((c) => {
         c.socket.write(`\n${user} has quit!`);
         if (user === c.nickName){
-          client.socket.end();
           delete(c.socket);
           delete(c.nickName);
           delete(c._id);
