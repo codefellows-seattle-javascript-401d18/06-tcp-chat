@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 ## Project Description
-Using node.js and net I have created a TCP Chat Server which you can join with NoCat. Inside the chat room you can talk to your friends as a group, direct message certain users, and even change your own username.
+Using node.js and net I have created a TCP Chat Server which you can join with NoCat. Inside the chat room you can talk to your friends as a group, direct message certain users, and even change your own username. Currently this chat room is designed for local use. If you have a large computer screen it's even better because you can open many terminals at once! This app would be ideal for someone with split personalities and or someone who enjoys talking to themselves. You can create as many users as you'd like. The sky is the limit.
 
 ## Table of Contents
 + [Installation](#installation)
