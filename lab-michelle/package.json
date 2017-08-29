@@ -1,0 +1,19 @@
+{
+  "name": "lab-michelle",
+  "version": "1.0.0",
+  "description": "Lab 6",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest --verbose",
+    "start": "node server.js"
+  },
+  "author": "Michelle S",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "jest": "^20.0.4"
+  }
+}
