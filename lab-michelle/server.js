@@ -19,6 +19,11 @@ ee.on('default', (client, string) => {
   client.socket.write(`Improperly formatted command: ${string.split(' ', 1)}\n`);
 });
 
+//Node docs suggest trying to catch uncaught exceptions through this type of thing? https://nodejs.org/api/events.html#events_class_eventemitter
+process.on('error', (err) => {
+  console.error('Darn, an error occured');
+});
+
 server.on('connection', socket => {
   let client = new Client(socket);
   // console.log('client', client)
@@ -28,14 +33,18 @@ server.on('connection', socket => {
   socket.on('data', data => {
     let cmd = data.toString().split(' ').shift().trim();
     console.log(cmd);
+
     if(cmd === '@all') {
       console.log(data.toString().split(' ').slice(1).join() + '\n');
       pool.forEach(c => c.socket.write(data.toString().split(' ').slice(1).join() + '\n'));
+
     } else if(cmd === '@nick') {
       let makeName = data.toString().split(' ').pop().trim();
+      //FYI, credit to Isaac. Isaac explained how this works to me//
       client.nick = makeName;
       console.log(client.nick);
       pool.forEach(c => c.socket.write(`${client.nick} changed his name!`));
+
     } else if(cmd === '@dm') {
       let commandLineArr = data.toString().split(' ');
       console.log(commandLineArr);
@@ -49,11 +58,17 @@ server.on('connection', socket => {
     }
   });
 
-  socket.error();
-
+ ee.emit('error', )
+  socket.destroy('data', data =>
+    ee.emit('error', )
+);
+    ee.emit('default', client, data.toString().split(' ').slice(1).join())
   //when a socket emits the close event, the socket should be removed from the client pool, and the socket should be ended
-
-  socket.close();
+  Event: 'close'#
+  Added in: v0.1.90
+  had_error <boolean> true if the socket had a transmission error.
+  Emitted once the socket is fully closed. The argument had_error is a boolean which says if the socket was closed due to a transmission error.
+  socket.on('end', )
 
 });
 
