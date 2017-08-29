@@ -24,11 +24,12 @@ server.on('connection', socket => {
       pool.forEach(c => c.socket.write(`${client.nick} said: ${data.toString()}`));
     } else if(cmd === '@nickname') {
       pool.forEach(c => c.socket.write(`${client.nick} goes by: ${data.toString()}\n`));
-      client.nick = data.toString();
+      client.nick = data.toString().split(' ')[1];
     } else if(cmd === '@dm') {
       pool.forEach(function(c) {
-        if(c.nick === data.toString().split(' ').slice(1,2).pop()){
-          c.socket.write(`${client.nick} to ${data.toString()}`);
+        if(c.nick === data.toString().split(' ')[1]){
+          console.log(client.nick, data.toString().split(' ')[1]);
+          c.socket.write(`${client.nick}: ${data.toString().split(' ').slice(2).join(' ').trim()}\n`);
         }
       });
     } else if(cmd === '@exit'){
