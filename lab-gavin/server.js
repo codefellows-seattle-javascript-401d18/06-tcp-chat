@@ -10,13 +10,9 @@ const server = net.createServer();
 
 let pool = [];
 
-// TODO: Create the @dm, @nick, @all commands. Anything else should emit a 'default' event
-// @all HEY THERE => this will broadcast to all clients
-// @dm tim HEY THERE => this will broadcast to ONLY tim
-// @nick scott => will change the nickname of this client to scott
-
-ee.on('default', (client, string) => {
-  client.socket.write(`Improperly formatted command: ${string.split(' ', 1)}\n`);
+// ${string.split(' ', 1)}
+ee.on('default', (client) => {
+  client.socket.write(`Wow, I'm glad you're eager to chat but...\n +++Please use "@all" to type a message to all users in the chat room.\n +++Use "@dm username" to send a direct message to a specific user, replacing username with the desired user's username.\n +++To change your own username "@nickname username", replacing username with the desired user name.\n Thanks and have a great day!\n`);
 });
 
 
@@ -41,8 +37,9 @@ server.on('connection', socket => {
 
   socket.on('data', data => {
     let cmd = data.toString().split(' ').shift().trim();
+
     if(cmd === '@all') {
-      pool.forEach(c => c.socket.write(`${client.nickName} => ` + data.toString().split(' ').pop()));
+      pool.forEach(c => c.socket.write(`${client.nickName} => ` + data.toString().split(' ').slice(1).join(' ')));
 
     } else if (cmd === `@nickname`) {
       client.nickName = data.toString().split('@nickname ')[1].trim();
@@ -50,30 +47,32 @@ server.on('connection', socket => {
     } else if (cmd === '@dm') {
 
       let nickname = data.toString().split(' ')[1];
-      let message = data.toString().split(' ');
+      let message = data.toString().split(' ').slice(2).join(' ');
 
       pool.forEach( c => {
-
         if (c.nickName === nickname || c.id === nickname) {
           c.socket.write(`DM from ${client.nickName}: ${message} \n`);
         }
       });
     } else if (cmd === '@exit'){
-      console.log('first pool', pool);
-
       let user = client.nickName;
-      console.log('user', user);
       pool.forEach((c) => {
         c.socket.write(`\n${user} has quit!`);
         if (user === c.nickName){
+          client.socket.end();
           delete(c.socket);
-          console.log('second pool',pool);
+          delete(c.nickName);
+          delete(c._id);
+        }
+        for (var i = 0; i < pool.length; i++){
+          if (pool[i].nickName === user){
+            pool.splice(i, 1);
+          }
         }
       });
-      client.socket.end();
 
     } else {
-      ee.emit('default', client, data.toString().split(' ').slice(1).join());
+      ee.emit('default', client);
     }
   });
 });
