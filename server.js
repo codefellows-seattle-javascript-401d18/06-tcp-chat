@@ -14,7 +14,6 @@ let helpGuide = [
   '\n>>> cmd: \'@dm <name> <msg>\' to private message user\n',
   '\n>>> cmd: \'@nickname <name>\' to change your name\n',
   '\n>>> cmd: \'@exit\' to exit chat room\n',
-  '\n>>> emojis: \'#tableflip, #calm, #shrug \n #love\'',
   '\n-------------------------------------------------------------\n',
 ];
 
@@ -28,22 +27,29 @@ ee.on('@help', function(client) {
   });
 });
 
+ee.on('@:)', function(client) {
+  pool.forEach( c => {
+    c.socket.write(`${client.nickname}: (╯°□°）╯︵ ┻━┻\n`);
+  });
+});
+
 ee.on('@all', function(client, string) {
   pool.forEach( c => {
     c.socket.write(`${client.nickname}: ${string} \n`);
   });
 });
-
+// Set this up to store the inputs of nickname and message for the DM function
 ee.on('@dm', function(client, string) {
   let nickname = string.split(' ').shift().trim();
   let message = string.split(' ').slice(1).join(' ').trim();
-
+  //this will iterate over the pool array to match the inputed nickname within the pool
   pool.forEach( c => {
     if (c.nickname === nickname || c.id === nickname) {
       c.socket.write(`DM from ${client.nickname}: ${message} \n`);
     }
   });
 });
+
 
 ee.on('@exit', function(client) {
   let newPool = [];
@@ -63,30 +69,6 @@ ee.on('@nickname', function(client, string) {
   client.nickname = string.split(' ').shift().trim();
 });
 
-ee.on('#tableflip', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: (╯°□°）╯︵ ┻━┻\n`);
-  });
-});
-
-ee.on('#calm', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: ┬──┬ ノ(゜-゜ノ)\n`);
-  });
-});
-
-
-ee.on('#shrug', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: ¯\_(ツ)_/¯\n`);
-  });
-});
-
-ee.on('#love', function(client) {
-  pool.forEach( el => {
-    el.socket.write(`${client.nickname}: ♥‿♥\n`);
-  });
-});
 
 
 server.on('connection', function(socket) {
@@ -97,19 +79,15 @@ server.on('connection', function(socket) {
   });
 
   pool.push(client);
-
+  //Just a nice welcome message to push to the user
   socket.write('\nWelcome to Shaun\'s Chat Room \n');
   socket.write('Type @help to see a list of available commands \n');
 
   socket.on('data', function(data) {
     const command = data.toString().split(' ').shift().trim();
-
+    //I'm writting this command to help me write a custom event that whenever # is typed before something it will us toString
+    //without needing to be in the function
     if (command.startsWith('@')) {
-      ee.emit(command, client, data.toString().split(' ').splice(1).join(' '));
-      return;
-    }
-
-    if (command.startsWith('#')) {
       ee.emit(command, client, data.toString().split(' ').splice(1).join(' '));
       return;
     }
