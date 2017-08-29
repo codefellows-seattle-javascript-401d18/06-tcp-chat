@@ -10,9 +10,12 @@ I'm assuming someone can just copy this off of my Github?
 - initialize npm: `npm init`
 - install uuid package for Node (`npm install uuid`);
 - set up dev dependencies: jest, eslint
+
+## How to connect to the server
 - run nodeserver.js
 - if testing with a Windows machine, test through telnet and PuTTY with host name set to localhost 3000 and a connection type of telnet
-  - download PuTTY
+  - [download PuTTY here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+  - if you haven't configured telnet previously, do so using these instructions [here](http://www.sysprobs.com/install-and-enable-telnet-in-windows-8-use-as-telnet-client)
 - instantiate users through PuTTY terminals
 
 ## Features

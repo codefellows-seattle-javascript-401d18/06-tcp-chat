@@ -36,7 +36,7 @@ server.on('connection', socket => {
 
     if(cmd === '@all') {
       console.log(data.toString().split(' ').slice(1).join() + '\n');
-      pool.forEach(c => c.socket.write(data.toString().split(' ').slice(1).join() + '\n'));
+      pool.forEach(c => c.socket.write(client.name + ' says ' + data.toString().split(' ').slice(1).join() + '\n'));
 
     } else if(cmd === '@nick') {
       let makeName = data.toString().split(' ').pop().trim();
@@ -45,10 +45,11 @@ server.on('connection', socket => {
       console.log(client.nick);
       pool.forEach(c => c.socket.write(`${client.nick} changed his name!`));
 
+//Pair programmed with Said//
     } else if(cmd === '@dm') {
       let commandLineArr = data.toString().split(' ');
-      console.log(commandLineArr);
-      console.log('the 1 in cLArr', commandLineArr[1]);
+      // console.log(commandLineArr);
+      // console.log('the 1 in cLArr', commandLineArr[1]);
       pool.forEach(client => {
         if (commandLineArr[1] === client.nick) {
           console.log(commandLineArr[2]);
@@ -58,18 +59,14 @@ server.on('connection', socket => {
     }
   });
 
- ee.emit('error', )
-  socket.destroy('data', data =>
-    ee.emit('error', )
-);
-    ee.emit('default', client, data.toString().split(' ').slice(1).join())
-  //when a socket emits the close event, the socket should be removed from the client pool, and the socket should be ended
-  Event: 'close'#
-  Added in: v0.1.90
-  had_error <boolean> true if the socket had a transmission error.
-  Emitted once the socket is fully closed. The argument had_error is a boolean which says if the socket was closed due to a transmission error.
-  socket.on('end', )
-
+  //I'm trying to figure out what to do with errors but honestly I'm not sure//
+  ee.on('error', (err) => {
+    if (err) console.error('Alas, alack, an error!');
+  });
+  ee.emit('error', (err) => {
+    if (err) console.error('A wild error appears!');
+    socket.destroy(); //it says end in the readme and I feel like given end can still do stuff that can't be right
+  });
 });
 
 server.listen(3000, () => console.log('listening on port 3000'));
