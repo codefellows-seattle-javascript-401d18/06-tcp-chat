@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // TODO: require in all the modules necessary for server setup
 const net = require('net');
@@ -36,22 +36,25 @@ server.on('connection', socket => {
       client.nick = makeName;
       console.log(client.nick);
       pool.forEach(c => c.socket.write(`${client.nick} changed his name!`));
-      // client.socket.write(`You changed your name! Now it is ${string.split(' ', 1)}\n`);
     } else if(cmd === '@dm') {
-      let messageArr = data.toString().split(' ');
-      for (let i = 0; i < pool.length; i++) {
-        if (client.nick === messageArr[1]) {
-          socket.write(messageArr[2]);
-          console.log('messageArr[2]', messageArr[2]);
+      let commandLineArr = data.toString().split(' ');
+      console.log(commandLineArr);
+      console.log('the 1 in cLArr', commandLineArr[1]);
+      pool.forEach(client => {
+        if (commandLineArr[1] === client.nick) {
+          console.log(commandLineArr[2]);
+          client.socket.write(commandLineArr[2]);
         }
-      }
+      });
     }
-    // console.log(data.toString()) => will print whatever data was transmitted
   });
 
-  // socket.error();
-  //
-  // socket.close();
+  socket.error();
+
+  //when a socket emits the close event, the socket should be removed from the client pool, and the socket should be ended
+
+  socket.close();
+
 });
 
 server.listen(3000, () => console.log('listening on port 3000'));
