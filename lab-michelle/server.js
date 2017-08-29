@@ -32,9 +32,9 @@ server.on('connection', socket => {
       console.log(data.toString().split(' ').slice(1).join() + '\n');
       pool.forEach(c => c.socket.write(data.toString().split(' ').slice(1).join() + '\n'));
     } else if(cmd === '@nick') {
-      let makeName = data.toString().split('').pop().trim();
-      client.name = makeName;
-      // console.log(client.name);
+      let makeName = data.toString().split(' ').pop().trim();
+      client.nick = makeName;
+      console.log(client.nick);
       pool.forEach(c => c.socket.write(`${client.nick} changed his name!`));
       // client.socket.write(`You changed your name! Now it is ${string.split(' ', 1)}\n`);
     } else if(cmd === '@dm') {
@@ -42,6 +42,7 @@ server.on('connection', socket => {
       for (let i = 0; i < pool.length; i++) {
         if (client.nick === messageArr[1]) {
           socket.write(messageArr[2]);
+          console.log('messageArr[2]', messageArr[2]);
         }
       }
     }
