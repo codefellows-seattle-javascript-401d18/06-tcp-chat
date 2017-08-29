@@ -6,9 +6,7 @@ const net = require('net');
 const EE = require('events').EventEmitter;
 const ee = new EE();
 const Client = require('./model/client');
-
 const server = net.createServer();
-
 
 let pool = [];
 
@@ -46,6 +44,7 @@ server.on('connection', socket => {
           ee.emit('default', client, data.toString().split(' ').slice(1).join());
         }
       });
+
       socket.on('error', function(err) {
         console.log('Error in the Socket', (err));
         socket.destroy();
