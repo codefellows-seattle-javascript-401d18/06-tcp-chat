@@ -1,49 +1,14 @@
-![cf](https://i.imgur.com/7v5ASc8.png) Lab 06: TCP Chat Server
-======
+TCP
 
-## Submission Instructions
-  * fork this repository & create a new branch for your work
-  * write all of your code in a directory named `lab-` + `<your name>` **e.g.** `lab-susan`
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
-  * write a question and observation on canvas
+Summary
 
-## Learning Objectives  
-* students will understand how to implement a TCP server using the `net` module
-* students will understand how to work with node.js EventEmitter's
+IRC is a chat room application using a TCP server and native Node Module: Net. This program first creates a Client through a Client Constructor and uses NPM uuid to generate unique universal ids for each client. Clients have the ability to chat, change their name, and exit with shortcut commands.
 
-## Requirements
-#### Configuration  
-<!-- list of files, configurations, tools, etc that are required -->
-Your lab directory must include  
-* `.gitignore`
-* `.eslintrc.json`
-* `package.json`
-* `.eslintignore`
-* `README.md`
+Getting Started
 
-#### Feature Tasks  
-* create a TCP Server using the NodeJS native `net` module
-* create a `Client` Constructor
-* when sockets connect to the server, a new `Client` instance should be made
-* all clients should have a unique `_id` property - this should come from the use of `uuid`
-* when sockets are connected with the client pool they should be given event listeners for `data`, `error`, and `close` events
- * when a socket emits the `close` event, the socket should be removed from the client pool, and the socket should be `ended`
- * when a socket emits the `error` event, the error should be logged on the server
- * when a socket emits the `data` event, the data should be logged on the server and the commands below should be implemented
+Clone this repo and install via terminal using npm i to add dependencies. Once cloned, start server by running node server.js which will fire off TCP routing. If you have not set your port, it will default to PORT 8000.
 
-## Custom commands
-* `@all` should trigger a broadcast event
-* `@nickname` should allow a user change their nickname
-* `@dm` should allow a user to send a message directly to another user by nick name or by their guest id _(unique client id)_
-* when a user sends a message, their nickname should be printed
-  * **i.e.** `cfcrew: sup hackerz`
+To connect to the chat room, you will need an available IP Address as well as your defined PORT number. Using a separate terminal window, connect to Telnet using the following command:
 
-####  Documentation  
-* write a paragraph about your project
-* write documentation on how to get the project running
-* write documentation on how to connect to the server
-
-#### Testing  
-* no testing required for this lab - yay!
+telnet IPAddress PORT
+In terminal, use @all to message all available parties. Use @help to see a list of available commands.
