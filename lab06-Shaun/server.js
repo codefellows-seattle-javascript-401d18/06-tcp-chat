@@ -76,6 +76,7 @@ server.on('connection', function(socket) {
 
   pool.forEach( el => {
     el.socket.write(`${client.nickname} has joined! \n`);
+
   });
 
   pool.push(client);
@@ -85,7 +86,7 @@ server.on('connection', function(socket) {
 
   socket.on('data', function(data) {
     const command = data.toString().split(' ').shift().trim();
-    //I'm writting this command to help me write a custom event that whenever # is typed before something it will us toString
+    //I'm writting this command to help me write a custom event that whenever @ is typed before something it will us toString
     //without needing to be in the function
     if (command.startsWith('@')) {
       ee.emit(command, client, data.toString().split(' ').splice(1).join(' '));
